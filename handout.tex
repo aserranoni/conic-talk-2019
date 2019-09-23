@@ -1,0 +1,335 @@
+\documentclass[a4paper]{article}
+\usepackage{packages} 
+\title{Optimization Talk}
+\author{Ariel Serranoni}
+\date{3 de Outubro de 2019}
+\begin{document}
+\section*{Strong Duality - Why do We Need Slater's Condition?}
+\subsection*{Conic Programming Scenario}
+
+An Euclidean space \(\mathbb{E}\) is a finite-dimensional vector space over \(\Reals\) endowed with an inner product \(\iprod{\cdot}{\cdot}\). If \(\mathbb{E}\) and \(\mathbb{Y}\) are Euclidean spaces, the \emph{direct sum} of \(\mathbb{E}\) 
+and \(\mathbb{Y}\) is the Euclidean space 
+\[\mathbb{E}\oplus\mathbb{Y}\coloneqq\{x\oplus y\,\colon x\in\mathbb{E}\text{ and }y\in\mathbb{Y}\},\]
+where we consider for each \(x_1\oplus y_1\), \(x_2\oplus
+y_2\in\mathbb{E}\oplus\mathbb{Y}\) and \(\alpha\in\Reals\):
+\begin{enumerate}[label=(\roman*)]
+ \item \((x_1\oplus y_1)+(x_2\oplus y_2)_{\mathbb{E}\oplus\mathbb{Y}}=(x_1+_{\mathbb{E}}x_2)\oplus(y_1+_{\mathbb{Y}}y_2);\)
+ \item \(\alpha(x_1\oplus y_1)=\alpha x_1\oplus \alpha y_1;\)
+ \item \(\iprod{x_1\oplus y_1}{x_2\oplus y_2}_{\mathbb{E}\oplus\mathbb{Y}}=\iprod{x_1}{x_2}_{\mathbb{E}}+_{\Reals}\iprod{y_1}{y_2}_{\mathbb{Y}}.\)
+  \end{enumerate}
+\begin{definition}
+Let \(\mathbb{E}\) be an Euclidean space.  A \emph{cone} is a set \(K\subseteq\mathbb{E}\) such that \(\alpha x\in K\) for each \(x\in K\) and \(\alpha\in\Reals_{++}\).
+A \emph{hyperplane} is a set of the form \(\{x\in\mathbb{E}\,\colon \iprod{x}{a}=\beta\}\) for some \(0\not = a\in\mathbb{E}\) and \(\beta\in\Reals\). Similarly, a (closed) \emph{halfspace} is a set of the form
+\(\{x\in\mathbb{E}\,\colon\iprod{a}{b}\leq \beta\}\) for some \(0\not= a\in\mathbb{E}\) and \(\beta\in\Reals\). A \emph{polyhedron} is the intersection of finitely many halfspaces.
+\end{definition}
+
+\begin{definition}
+Let \(\mathbb{E}\) be an Euclidean space. A cone \(K\subseteq\mathbb{E}\) is \emph{pointed} if \(K\cap -K=\{0\}\). 
+We also say that \(K\) is proper if \(K\) is \emph{convex}, \emph{closed}, pointed, and \(\text{int}(K)\not=\varnothing\).
+Moreover, the cone \(K\) is \emph{polyhedral} if it is a polyhedron.
+\end{definition}
+
+\begin{definition}
+Let \(\mathbb{E}\) and let \(K\subseteq \mathbb{E}\) be a cone. The \emph{dual cone} of \(K\) is the set \[K^\ast\coloneqq\{x\in\mathbb{E}\,\colon \iprod{x}{k}\geq 0 \text{ for each } k\in K\}.\] 
+\end{definition}
+
+\subsection*{Cone Partial Order}
+
+\begin{definition}{}
+
+  Let $\mathbb{E}$ be an Euclidean space, $K\subseteq\mathbb{E}$ 
+  be a proper cone and $x,y \in \mathbb{E}$. Then, the 
+  cone $K$ induces an order in $\mathbb{E}$ as follows:
+  $$ x \succeq_{_K} y \text{ if }  x-y \in K.$$
+  Moreover,
+  $$ x \succ_{_K} y \text{ if } x-y \in \text{int}(K).$$
+
+\end{definition}
+
+\begin{lemma}\label{conepartialorder}
+
+  Let $\mathbb{E}$ be an Euclidean space and let 
+  $K\subseteq\mathbb{E}$ be a proper cone. Then, 
+  \mbox{$\succeq_{_K}$} is a partial order on $\mathbb{E}$.
+\end{lemma}
+
+
+\subsection*{Overview of Duality Theory}
+
+\begin{definition}{}
+Let $\mathbb{E}_1,\mathbb{E}_2,\mathbb{E}_3$ and
+$\mathbb{Y}_1,\mathbb{Y}_2,\mathbb{Y}_3$ be Euclidean spaces. Let
+$K\subseteq\mathbb{E}_1$ and \mbox{$L\subseteq\mathbb{Y}_1$} both be proper cones. Let
+\(K_p\subseteq\mathbb{E}_2\) and \(L_p\subseteq\mathbb{Y}_2\) both be polyhedral
+cones. Consider  \mbox{$c_1\oplus c_2\oplus
+c_3\in\mathbb{E}_1\oplus\mathbb{E}_2\oplus\mathbb{E}_3$} and $b_1\oplus b_2\oplus
+b_3\in\mathbb{Y}_1\oplus\mathbb{Y}_2\oplus\mathbb{Y}_3$. Let
+$A\colon\mathbb{E}_1\oplus\mathbb{E}_2\oplus\mathbb{E}_3\to\mathbb{Y}_1\oplus\mathbb{Y}_2\oplus\mathbb{Y}_3$
+be a linear function.
+
+A \textit{conic optimization problem} is an optimization problem of the form:
+
+\begin{mini}
+  {}{\langle x_1\oplus x_2\oplus x_3,c_1\oplus c_2\oplus
+    c_3\rangle}{\label{primal}}{ }  
+  \addConstraint{A(x_1\oplus x_2\oplus x_3)}{\succeq_{_{L^\ast\oplus
+        L_p^\ast\oplus \{0\}}}b_1\oplus b_2\oplus b_3}
+  \addConstraint{x_1\oplus x_2\oplus x_3}{\in K\oplus K_p\oplus\mathbb{E}_3}.
+   \end{mini}
+
+The set $G\coloneqq\{x_1\oplus x_2\oplus x_3\in K\oplus K_p\oplus\mathbb{E}_3
+\colon A(x_1\oplus x_2\oplus x_3)\succeq_{_{L^\ast\oplus L_p^\ast\oplus\{0\}}}
+b_1\oplus b_2\oplus b_3
+\}$ is the feasible set of \eqref{primal}. According to the notation presented
+in the Preliminaries, a conic optimization problem can be represented simply as
+$(G,\langle\cdot,c_1\oplus c_2\oplus c_3\rangle)$.
+\end{definition}
+
+We now define the dual problem of (\ref{primal}).
+
+
+\begin{definition}
+
+Consider the conic optimization problem (\ref{primal}). The  \emph{dual
+  problem} of (\ref{primal}) is the conic optimization problem
+
+\begin{maxi}
+  {}{\langle b_1\oplus b_2\oplus b_3,y_1\oplus y_2\oplus y_3\rangle}{\label{dual}}{}  
+  \addConstraint{A^\ast(y_1\oplus y_2\oplus y_3)}{\preceq_{_{K^\ast\oplus
+        K_p^\ast\oplus\{0\}}} c_1\oplus c_2\oplus c_3}
+  \addConstraint{y_1\oplus y_2\oplus y_3}{\in L\oplus L_p\oplus\mathbb{Y}_3}.
+   \end{maxi}
+
+To simplify the notation on the following propositions, we will denote \(x\coloneqq
+x_1\oplus x_2\oplus x_3\), \(y\coloneqq y_1\oplus y_2\oplus y_3\), \(c\coloneqq
+c_1\oplus c_2\oplus c_3\), and \(b\coloneqq b_1\oplus b_2\oplus b_3\) on  \eqref{primal} and \eqref{dual} until the
+end of this section.
+\end{definition}
+
+
+\begin{theorem}[Weak duality]\label{wd}
+  Let $\alpha$ be the optimal value of (\ref{primal}) and let $\beta$ be the optimal
+  value of (\ref{dual}). If $x$ is feasible in
+  (\ref{primal}) and $y$ is feasible
+  in (\ref{dual}), then $\langle b,y
+  \rangle\leq \langle c,x\rangle$. In
+  particular, $\alpha\geq\beta$. Moreover, if $\langle x ,c\rangle=\langle b,y\rangle$ then $x$ and $y$ are optimal solutions for their respective problems and $\alpha=\beta$.
+\end{theorem}
+
+
+\begin{corollary}[Complementary Slackness]
+  Let $\alpha$ be the optimal value of (\ref{primal}) and 
+  let $\beta$ be the optimal value of (\ref{dual}).
+  Let $x$ be a feasible solution in $(\ref{primal})$ and
+  $y$ be a feasible solution in $(\ref{dual})$. Then
+  $x$ and $y$ are optimal in their respective problems and 
+  $\alpha=\beta$ if, and only if,
+  $$\langle x, c- A^\ast(y)\rangle = \langle A(x)-b,y\rangle=0.$$
+\end{corollary}
+
+
+\begin{lemma}\label{lema1}
+  Let $\mathbb{E}$ be an Euclidean space, let \mbox{$K\subseteq\mathbb{E}$} be a proper
+  cone, let \mbox{$K_p\subseteq\mathbb{E}$} be a polyhedral cone and
+  $S\subseteq\mathbb{E}$ a linear subspace. If  $\mbox{int}(K)\cap K_p\cap
+  S\neq\varnothing$, then $$(K\cap K_p\cap S)^\ast=(K^\ast+K^\ast_p+S^\bot).$$
+\end{lemma}
+
+
+\begin{theorem}[Strong duality]\label{strongduality}
+  Consider the optimization problem \eqref{primal}. If \eqref{primal} is bounded
+  below and has a restricted Slater point, then the optimal values of
+  \eqref{primal} and its dual \eqref{dual} are equal and \eqref{dual} has an
+  optimal solution.
+\end{theorem}
+
+
+\subsection*{Race for Closedness}
+
+Our proof of strong duality relies heavily on Proposition \ref{lema1},
+which in turn needs the set \mbox{\(K^\ast+K_p^\ast+S^\bot\)} (in
+that context) to be closed. As we shall discuss, this fact is closely related with the
+commutativity between closures and linear images of convex sets and their duals.
+
+Let \(\mathbb{E}\) be an Euclidean space and let
+\(\varnothing\not=C_1,C_2\subseteq\mathbb{E}\) both be convex sets. Then
+\(C_1+C_2\) can be seen as \(A(C_1\oplus C_2)\) where
+\(A\colon\mathbb{E}\oplus\mathbb{E}\to\mathbb{E}\)
+is given by \(A(x_1\oplus x_2)=x_1+x_2\). 
+
+If we imagine an ideal scenario where we had \(\overline{A(C_1\oplus
+  C_2)}=A(\overline{C_1\oplus C_2})\), we could apply \(A\) to
+\mbox{\(K^\ast+K_p^\ast+S^\bot\)} and nothing we will see next would be
+required. 
+
+\begin{remark}
+  In the case \(C_1\) and \(C_2\) are polyhedra, the ideal scenario is
+  actually real. That's why there is no need for constraint
+  qualifications in linear programming. 
+\end{remark}
+
+Unfortunately, the ideal scenario does not hold in general. In fact, we have that
+
+\begin{lemma}\label{rilin}
+Let \(\mathbb{E}\) and \(\mathbb{Y}\) be Euclidean spaces, let \(C\subseteq\mathbb{E}\) be a convex set, and let \(A\colon\mathbb{E}\to\mathbb{Y}\) be a linear function. Then:
+\begin{enumerate}[label=(\roman*)]
+\item\(A(\overline{C})\subseteq\overline{A(C)}\);
+\item\(\text{ri}(A(C))=A(\text{ri}(C))\).
+\end{enumerate}
+\end{lemma}
+
+The first question one asks is: When does item (ii) of Proposition
+\ref{rilin} hold with equality? In order to have an satisfactory
+answer, we need one additional tool.
+
+\begin{definition}
+  Let \(\mathbb{E}\) be an Euclidean space and let \(\varnothing\not =
+  C\subseteq\mathbb{E}\) be a convex set. The \emph{recession cone} of \(C\)
+  is the set
+  \[0^+C\coloneqq\{y\in\mathbb{E}\,\colon x+\alpha y\in C\, \text{ for each } x\in
+    C\text{ and } \alpha\in\mathbb{R}_{++}\}.\]
+  The \emph{lineality space} of \(C\) is the set \(\text{lin}(C)\coloneqq 0^+C\cap(-0^+C)\).
+\end{definition}
+
+
+\begin{lemma}\label{imgfech}
+  Let $\mathbb{E}$ and  $\mathbb{Y}$ be Euclidean spaces, let $A\colon\mathbb{E}\to\mathbb{Y}$ be a linear function, and let $\varnothing\not=C\subseteq \mathbb{E}$ be a closed convex set. If $0^+C\cap\text{Null}(A)\subseteq\text{lin}(C)$, then $A(C)$ is closed.  
+\end{lemma}
+
+
+\begin{corollary}\label{somafechada}
+  Let \(\mathbb{E}\) be an Euclidean space, let \(\{C_i\}_{i\in I}\subseteq\mathbb{E}\) be a finite
+  family of nonempty convex sets. If \(x_i\in C_i\) for each \(i\in I\) and \(\sum_{i\in
+    I}x_i=0\) implies that \(x_i\in\text{lin}(C_i)\) for each \(i\in I\), then
+  \(\overline{\sum_{i\in I}C_i}=\sum_{i\in I}\overline{C_i}\).
+\end{corollary}
+
+Finally, we need to relate our previous achievements with duality theory
+and the next result is the key to it.
+
+\begin{lemma}\label{requisitocondicoes}
+  Let $\mathbb{E}$ be an Euclidean space, let $S\subseteq\mathbb{E}$ be a subspace
+  of $\mathbb{E}$, and let \(K\subseteq\mathbb{E}\) be a convex cone. Then exactly one of the following two
+  statements is true:
+  \begin{enumerate}[label=(\roman*)]
+  \item There is no hyperplane separating \(S\) and \(K\) properly;
+  \item There exists \(x\) such that \(x\in S^\bot\), \(x\in -K^\ast\), and
+    \(x\not\in K^\ast\). 
+  \end{enumerate}
+\end{lemma}
+
+Now things start to connect:
+
+\begin{corollary}\label{umprimeiro}
+  Let \(\mathbb{E}\) be an Euclidean space and let \(\{K_i\}_{i\in I}\subseteq\mathbb{E}\) be a
+  finite family of convex cones. Then exactly one of the following two statements is
+  true:
+  \begin{enumerate}[label=(\roman*)]
+  \item There exists \(y\in\bigcap_{i\in I}\text{ri}(K_i)\);
+  \item There exists a family \(\{x_i\}_{i\in I}\) such that \(\sum_{i\in
+      I}x_i=0\), \(x_i\in -K_i^\ast\) for each \(i\in I\), and \(x_i\not\in
+    K_i^\ast\) for some \(i\in I\).
+  \end{enumerate}
+\end{corollary}
+\begin{corollary}\label{corcor}
+  Let \(\mathbb{E}\) be an Euclidean space and let \(\{K_i\}_{i\in I}\subseteq\mathbb{E}\) be a
+  finite family of convex cones. If \(\bigcap_{i\in I}\text{ri}(K_i)\not=\varnothing\)
+  then \(\sum_{i\in I }K_i^\ast\) is closed. 
+\end{corollary}
+
+
+Proposition \ref{requisitocondicoes} and Corollaries
+\ref{umprimeiro} and \ref{corcor} can all trivially be adapted to  consider a
+finite family of polyhedral cones. In this case, similar statements can be
+proved if we replace proper separation for strong separation and weaken the
+relative interior requirements. The following theorem is a refinement of
+these results.
+
+\begin{theorem}\label{minklosed}
+  Let $\mathbb{E}$ be an Euclidean space, Let \(\{K_i\}_{i\in
+    I}\subseteq\mathbb{E}\) be a finite family of convex cones. Assume that there exists
+  \(I_0\subseteq I\) such that \(K_i\) is polyhedral for each \(i\in I_0\). If
+  $\bigcap_{i\in I_0}K_i\cap\bigcap_{i\in I\setminus
+    I_0}\text{ri}(K_i)\not=\varnothing $, then $\sum_{i\in I}K_i^\ast$ is  closed.
+\end{theorem}
+
+
+\section*{Homomorphisms - What Does Equivalence Mean in Optimization?}
+
+\begin{definition} 
+An \textit{optimization problem} is an ordered pair $P=(X,f)$, where $X$ is a
+set and $f\colon X\to \overline{\mathbb{R}}$ is an extended real-valued function. The problem $P$ is more commonly denoted as
+\begin{mini*}
+  {}{f(x)}{}{}
+  \addConstraint{x\in X. }
+ \end{mini*} 
+
+
+The set $X$ is the \emph{feasible region} of \(P\) and the function $f$ is the
+\emph{objective function} of \(P\). The elements of $X$ are the \textit{feasible
+  points} or \textit{feasible solutions} of \(P\); everything else is \textit{infeasible}. The optimization problem $P$ is \textit{feasible} if $X\not=\varnothing$. Otherwise it is \textit{infeasible}. The \textit{objective value} of $x\in X$ is $f(x)$. The \textit{optimal value} of $P$ is $\inf_{x\in X}f(x)\in\overline{\mathbb{R}}$. A feasible solution $\bar{x}$ is \emph{optimal} if $f(\bar{x})$ is the optimal value of the problem. If the optimal value of $P$ is $-\infty$, the problem is \textit{unbounded}. 
+\end{definition}
+When we write
+\begin{maxi*}
+  {}{f(x)}{}{}
+  \addConstraint{x\in X }
+ \end{maxi*}
+we are referring to the optimization problem $(X,-f)$ and, besides the
+definition of optimal value which becomes \(-\inf_{x\in X}-f(x)\), we use the same
+terminology as above.
+\begin{definition}
+Let \(P=(X,f)\) be an optimization problem. A feasible point \(\bar{x}\) is
+\emph{locally optimal} if there exists \(V\subseteq X\) such that \(\bar{x}\) is the
+optimal solution of the problem \((V,f)\).  
+\end{definition}
+
+\begin{definition}
+  Let $P=(X,f)$ and $Q=(Y,g)$ be optimization problems. A \emph{homomorphism} from $P$ to $Q$ is a function $\varphi\colon X\to Y$ such that $g(\varphi(x))\leq f(x)$ for each $x\in X$.
+\end{definition}
+
+\begin{lemma}\label{optitrans}
+  Let $P=(X,f)$, $Q=(Y,g)$, and $R=(Z,h)$ be optimization problems. If $\varphi\colon X\to Y$ be a homomorphism from $P$ to $Q$ and $\psi\colon Y\to Z$ be a homomorphism from $Q$ to $R$, then $\psi\circ\varphi\colon X\to Z$ is a homomorphism from $P$ to $R$. 
+\end{lemma}
+
+\begin{lemma}\label{equinv}
+  Let $P=(X,f)$ and $Q=(Y,g)$ be optimization problems. If $\varphi\colon X\to Y$ is a bijective function such that $g(\varphi(x))=f(x)$ for each $x\in X$, then $\varphi^{-1}\colon Y\to X$ is a homomorphism from $Q$ to $P$.
+\end{lemma}
+\begin{corollary}\label{id}
+  Let $P=(X,f)$ and $Q=(Y,g)$ be optimization problems. If there exists  a bijective function $\varphi\colon X\to Y$ such that $g(\varphi(x))=f(x)$ for each $x\in X$ then $P$ and $Q$ are equivalent.
+\end{corollary}
+
+
+\begin{lemma}
+  Consider, for every optimization problems $A$ and $B$, $$A\sim B \text{ if, and
+    only if  there exists a homomorphism from} A \text{ to } B \text{ and vice-versa.}$$
+  Then $\sim$ is an equivalence relation in \(\mathcal{C}\).
+
+\end{lemma}
+
+\subsection*{First Results}
+\begin{lemma}\label{samefiniteval}
+  Let \(P=(X,f)\) and \(Q=(Y,g)\) be equivalent optimization problems. If either \(P\) or
+  \(Q\) has finite optimal value \(\alpha\in\mathbb{R}\), then \(\alpha\) is the
+  optimal value of both problems. 
+\end{lemma}
+
+\begin{lemma}\label{bothoptsols}
+  Let \(P=(X,f)\) and \(Q=(Y,g)\) be equivalent optimization problems. Then \(P\) has an
+  optimal solution if, and only if \(Q\) has an optimal solution.
+\end{lemma}
+
+
+\begin{lemma}
+  Let \(P=(X,f)\) and \(Q=(Y,g)\) be equivalent optimization problems. Then \(P\)
+  and \(Q\) have the same outcome. That is:
+  \begin{enumerate}[label=(\roman*)]
+  \item \(P\) is infeasible if and only if \(Q\) is infeasible.
+  \item \(P\) is unbounded if and only if \(Q\) is unbounded.
+  \item \(P\) has finite optimal value and does not have optimal solution if and
+    only if \(Q\) has finite optimal value and does not have optimal solution.
+  \item \(P\) has finite optimal value and an optimal solution if and only if
+    \(Q\) has finite optimal value and an optimal solution.   
+  \end{enumerate}
+\end{lemma}
+\subsection*{Further Developments}
+\end{document}
