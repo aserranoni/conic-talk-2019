@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2019.9.14)  23 SEP 2019 15:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (TeX Live 2019/dev/Debian) (preloaded format=pdflatex 2019.9.14)  23 SEP 2019 15:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -553,11 +553,10 @@ Package: xstring 2019/02/06 v1.83 String manipulations (CT)
 (/usr/share/texlive/texmf-dist/tex/latex/eso-pic/eso-pic.sty
 Package: eso-pic 2018/04/12 v2.0h eso-pic (RN)
 )
-
-Package gitinfo2 Warning: I can't find the file '.git/gitHeadInfo.gin'.
-(gitinfo2)                All git metadata has been set to '(None)'.
-
-)
+(./.git/gitHeadInfo.gin)
+(/usr/share/texlive/texmf-dist/tex/latex/gitinfo2/gitexinfo.sty
+Package: gitexinfo 2015/11/22 v2.0.7 Auxiliary package for gitinfo2
+))
 \c@theorem=\count280
 ) (./talk.aux)
 \openout1 = `talk.aux'.
@@ -578,7 +577,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 6.
 LaTeX Font Info:    ... okay on input line 6.
 \AtBeginShipoutBox=\box48
 Package hyperref Info: Link coloring OFF on input line 6.
- (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
 
 (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
@@ -723,25 +722,25 @@ ML/cmm/m/it/10 A$ \T1/cmr/m/n/10 to []
  []
 
 [4] [5] [6] [7] [8]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 783.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 782.
  [9]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 783.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 782.
  (./talk.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 783.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 783.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 782.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 782.
 Package rerunfilecheck Info: File `talk.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
 
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 783.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 782.
  ) 
 Here is how much of TeX's memory you used:
- 19297 strings out of 492615
- 327833 string characters out of 6131390
- 434106 words of memory out of 5000000
- 22939 multiletter control sequences out of 15000+600000
+ 19342 strings out of 492615
+ 328645 string characters out of 6131390
+ 435808 words of memory out of 5000000
+ 22984 multiletter control sequences out of 15000+600000
  543310 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  54i,16n,67p,936b,558s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -763,7 +762,7 @@ m-super/sfbx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfbx1440.pfb
 ></usr/share/texmf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/f
 onts/type1/public/cm-super/sfss0900.pfb></usr/share/texmf/fonts/type1/public/cm
 -super/sfti1000.pfb>
-Output written on talk.pdf (9 pages, 275656 bytes).
+Output written on talk.pdf (9 pages, 280276 bytes).
 PDF statistics:
  270 PDF objects out of 1000 (max. 8388607)
  237 compressed objects within 3 object streams
